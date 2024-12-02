@@ -4,7 +4,9 @@ import Layout from "../components/layout";
 
 const IndexPage: React.FC<PageProps> = () => {
     return (
-      <Layout></Layout>
+      <Layout>
+          <h4 className="font-bold text-4xl">Website is under construction...</h4>
+      </Layout>
     );
 };
 

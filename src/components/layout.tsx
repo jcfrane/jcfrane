@@ -4,6 +4,7 @@ import {
     Transition,
     Menu,
 } from '@headlessui/react';
+
 import {
     Bars3Icon,
     BellIcon,
@@ -16,6 +17,10 @@ import {
     HeartIcon,
     XMarkIcon,
 } from '@heroicons/react/24/outline';
+
+interface LayoutProps {
+    children: React.ReactNode;
+}
 
 type HeroIcon = React.ForwardRefExoticComponent<
     React.SVGProps<SVGSVGElement> & React.RefAttributes<SVGSVGElement>
@@ -46,7 +51,7 @@ function classNames(...classes: (string | false | null | undefined)[]) {
     return classes.filter(Boolean).join(' ');
 }
 
-const Layout: React.FC = () => {
+const Layout: React.FC<LayoutProps> = ({ children }) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
@@ -208,7 +213,7 @@ const Layout: React.FC = () => {
                 </div>
 
                 <main className="py-10">
-                    <div className="px-4 sm:px-6 lg:px-8">{/* Your content */}</div>
+                    <div className="px-4 sm:px-6 lg:px-8">{children}</div>
                 </main>
             </div>
         </div>
