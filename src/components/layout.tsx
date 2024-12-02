@@ -2,7 +2,6 @@ import React, {useState, Fragment} from 'react';
 import {
     Dialog,
     Transition,
-    Menu,
 } from '@headlessui/react';
 
 import {
@@ -13,14 +12,12 @@ import {
     HeartIcon,
     XMarkIcon,
 } from '@heroicons/react/24/outline';
+import {HeroIcon} from "../types";
+
 
 interface LayoutProps {
     children: React.ReactNode;
 }
-
-type HeroIcon = React.ForwardRefExoticComponent<
-    React.SVGProps<SVGSVGElement> & React.RefAttributes<SVGSVGElement>
->
 
 interface NavigationItem {
     name: string;
@@ -47,7 +44,7 @@ function classNames(...classes: (string | false | null | undefined)[]) {
     return classes.filter(Boolean).join(' ');
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     return (
@@ -91,7 +88,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                                 </div>
                                 {/* Sidebar content */}
                                 <div className="flex h-16 shrink-0 items-center">
-                                   <h4 className="text-white font-bold text-2xl">jcfrane.</h4>
+                                    <h4 className="text-white font-bold text-2xl">jcfrane.</h4>
                                 </div>
                                 <nav className="mt-5 flex flex-1 flex-col">
                                     <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -209,7 +206,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
                 </div>
 
                 <main className="py-10">
-                    <div className="px-4 sm:px-6 lg:px-8">{children}</div>
+                    <div className="px-4 sm:px-6 lg:px-8">{/* Your content */}</div>
                 </main>
             </div>
         </div>
