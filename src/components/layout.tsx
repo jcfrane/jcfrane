@@ -7,11 +7,7 @@ import {
 
 import {
     Bars3Icon,
-    BellIcon,
-    ChevronDownIcon,
     CodeBracketIcon,
-    Cog6ToothIcon,
-    FolderIcon,
     HomeIcon,
     MagnifyingGlassIcon,
     HeartIcon,
