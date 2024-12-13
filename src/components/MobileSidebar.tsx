@@ -5,15 +5,15 @@ import SidebarItem from './SidebarItem';
 import { SidebarItemInterface } from '../types';
 
 interface MobileSidebarProps {
-    sidebarOpen: boolean;
-    setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
     navigation: SidebarItemInterface[];
+    open: boolean;
+    onToggle: () => void;
 }
 
-const MobileSidebar: React.FC<MobileSidebarProps> = ({ sidebarOpen, setSidebarOpen, navigation }) => {
+const MobileSidebar: React.FC<MobileSidebarProps> =  ({ navigation, open, onToggle }) => {
     return (
-        <Transition.Root show={sidebarOpen} as={Fragment}>
-            <Dialog as="div" className="relative z-50 lg:hidden" onClose={setSidebarOpen}>
+        <Transition.Root show={open} as={Fragment}>
+            <Dialog as="div" className="relative z-50 lg:hidden" onClose={() => onToggle()}>
                 <Transition.Child
                     as={Fragment}
                     enter="transition-opacity duration-300 ease-linear"
@@ -37,12 +37,16 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({ sidebarOpen, setSidebarOp
                         leaveTo="-translate-x-full"
                     >
                         <Dialog.Panel
-                            className="relative flex w-full max-w-xs flex-1 flex-col bg-indigo-600 px-6 pb-4"
-                        >
+                            className="
+                              relative flex w-full max-w-xs flex-1 flex-col bg-indigo-600 px-6 pb-4
+                              bg-gradient-to-tr
+                              from-[#E95420]
+                              to-[#772165]
+                            ">
                             <div className="absolute left-full top-0 flex w-16 justify-center pt-5">
                                 <button
                                     type="button"
-                                    onClick={() => setSidebarOpen(false)}
+                                    onClick={() => onToggle()}
                                     className="-m-2.5 p-2.5"
                                 >
                                     <span className="sr-only">Close sidebar</span>

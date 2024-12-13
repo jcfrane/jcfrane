@@ -4,16 +4,16 @@ import Layout from "../components/Layout";
 
 const IndexPage: React.FC<PageProps> = () => {
     return (
-      <Layout>
-          <h4 className="font-bold text-4xl">Website is under construction...</h4>
-      </Layout>
+        <Layout>
+            <h4 className="font-bold text-2xl px-4 sm:px-6 lg:px-8 text-brandUbuntuOrange-1000">Website is under construction...</h4>
+        </Layout>
     );
 };
 
 export default IndexPage;
 
 export const Head: HeadFC = () => (
-        <>
+    <>
             <title>Home Page</title>
             <html lang="h-full bg-white"/>
             <body className="h-full"/>
