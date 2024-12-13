@@ -1,13 +1,12 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
-import {
-    Bars3Icon,
-    MagnifyingGlassIcon,
-} from '@heroicons/react/24/outline';
 import {IoCodeSlash, IoHome, IoLeaf} from "react-icons/io5";
 import {SidebarItemInterface} from "../types";
 import DesktopSidebar from './DesktopSidebar';
 import MobileSidebar from "./MobileSidebar";
+import SidebarToggle from "./SidebarToggle";
+import MobileBreakPoint from "./MobileBreakPoint";
+import {useMediaQuery} from "react-responsive";
 
 interface LayoutProps {
     children: React.ReactNode;
@@ -25,64 +24,79 @@ const userNavigation = [
     {name: 'Sign out', href: '#'},
 ];
 
-function classNames(...classes: (string | false | null | undefined)[]) {
-    return classes.filter(Boolean).join(' ');
-}
-
 const Layout: React.FC<LayoutProps> = ({children}) => {
-    const [sidebarOpen, setSidebarOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [mounted, setMounted] = useState(false);
+    const isMobile = useMediaQuery({ query: '(max-width: 768px)' });
+
+    useEffect(() => {
+        setMounted(true);
+        if (isMobile) {
+            setSidebarOpen(false);
+        }
+    }, []);
 
     return (
         <div>
             {/* Mobile sidebar */}
-            <MobileSidebar
-                sidebarOpen={sidebarOpen}
-                setSidebarOpen={setSidebarOpen}
-                navigation={navigation}
-            />
+            <MobileBreakPoint>
+                {mounted && (<MobileSidebar
+                    navigation={navigation}
+                    open={sidebarOpen}
+                    onToggle={() => {
+                        setSidebarOpen(!sidebarOpen);
+                    }}
+                />)}
+            </MobileBreakPoint>
 
             {/* Static sidebar for desktop */}
-            <DesktopSidebar navigation={navigation}/>
+            {mounted && (<DesktopSidebar
+                label={'jcfane.'}
+                navigation={navigation}
+                open={sidebarOpen}
+                onToggle={() => {
+                    console.log('TOGGLE');
+                    setSidebarOpen(!sidebarOpen)
+                }}
+            />)}
 
-            {/* Navbar */}
-            <div className="lg:pl-72">
+            <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:pl-72' : 'lg:pl-20'}`}>
                 <div
                     className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+
                     <button
                         type="button"
                         onClick={() => setSidebarOpen(true)}
-                        className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
+                        className={`p-2 text-gray-700 ${sidebarOpen ? 'hidden' : ''}`}
                     >
                         <span className="sr-only">Open sidebar</span>
-                        <Bars3Icon aria-hidden="true" className="h-6 w-6"/>
+                        <SidebarToggle open={sidebarOpen} onClick={() => setSidebarOpen(!sidebarOpen)}/>
                     </button>
 
                     {/* Separator */}
-                    <div aria-hidden="true" className="h-6 w-px bg-gray-900/10 lg:hidden"/>
+                    {/*<div aria-hidden="true" className="h-6 w-px bg-gray-900/10 lg:hidden"/>*/}
 
-                    <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-                        <form action="#" method="GET" className="relative flex flex-1">
-                            <label htmlFor="search-field" className="sr-only">
-                                Search
-                            </label>
-                            <MagnifyingGlassIcon
-                                aria-hidden="true"
-                                className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
-                            />
-                            <input
-                                id="search-field"
-                                name="search"
-                                type="search"
-                                placeholder="Search"
-                                className="block h-full w-full border-0 bg-transparent pl-8 pr-0 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm"
-                            />
-                        </form>
-                    </div>
+                    {/*<div className={`flex flex-1 gap-x-4 self-stretch lg:gap-x-6 ${!sidebarOpen ? 'px-2' : ''}`}>*/}
+                    {/*    <form action="#" method="GET" className="relative flex flex-1">*/}
+                    {/*        <label htmlFor="search-field" className="sr-only">*/}
+                    {/*            Search*/}
+                    {/*        </label>*/}
+                    {/*        <MagnifyingGlassIcon*/}
+                    {/*            aria-hidden="true"*/}
+                    {/*            className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"*/}
+                    {/*        />*/}
+                    {/*        <input*/}
+                    {/*            id="search-field"*/}
+                    {/*            name="search"*/}
+                    {/*            type="search"*/}
+                    {/*            placeholder="Search"*/}
+                    {/*            className="block h-full w-full border-0 bg-transparent pl-8 pr-0 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-0 sm:text-sm"*/}
+                    {/*        />*/}
+                    {/*    </form>*/}
+                    {/*</div>*/}
                 </div>
 
-                <main className="py-10">
-                    <div className="px-4 sm:px-6 lg:px-8 text-brandUbuntuOrange-1000">{children}</div>
-                </main>
+                <main className={`py-10 ${!sidebarOpen ? 'px-2 lg:px-4' : ''}`}>{children}</main>
             </div>
         </div>
     );
