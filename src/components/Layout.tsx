@@ -50,15 +50,14 @@ const Layout: React.FC<LayoutProps> = ({children}) => {
             </MobileBreakPoint>
 
             {/* Static sidebar for desktop */}
-            {mounted && (<DesktopSidebar
+            <DesktopSidebar
                 label={'jcfane.'}
                 navigation={navigation}
                 open={sidebarOpen}
                 onToggle={() => {
-                    console.log('TOGGLE');
                     setSidebarOpen(!sidebarOpen)
                 }}
-            />)}
+            />
 
             <div className={`transition-all duration-300 ${sidebarOpen ? 'lg:pl-72' : 'lg:pl-20'}`}>
                 <div
